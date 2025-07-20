@@ -1,6 +1,7 @@
 import HeroSection from '@/components/HeroSection'
 import ServicesSection from '@/components/ServicesSection'
 import CommitmentsSection from '@/components/CommitmentsSection'
+import CommitmentsTowardsEnvironmentSection from '@/components/CommitmentsTowardsEnvironmentSection'
 import CoverageAreaSection from '@/components/CoverageAreaSection'
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
       <HeroSection />
       <ServicesSection />
       <CommitmentsSection />
+      <CommitmentsTowardsEnvironmentSection />
       <CoverageAreaSection />
     </main>
   )
