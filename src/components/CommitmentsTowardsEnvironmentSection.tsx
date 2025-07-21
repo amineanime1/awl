@@ -57,10 +57,10 @@ const CommitmentsTowardsEnvironmentSection = () => {
       <div className="container mx-auto px-4">
         {/* Top Section */}
         <div className="text-center mb-36">
-            <div className="inline-flex items-center gap-2 py-2">
-              <img src="/svg/awl-wave-vert.svg" alt="AWL Logo" className="w-10 h-10" />
-              <span className="text-md font-light italic font-gantari">Livrer Vite, sans négliger demain</span>
-            </div>
+          <div className="inline-flex items-center gap-2 py-2">
+            <img src="/svg/awl-wave-vert.svg" alt="AWL Logo" className="w-10 h-10" />
+            <span className="text-md font-light italic font-gantari">Livrer Vite, sans négliger demain</span>
+          </div>
           <h2 className="font-gasoek text-4xl text-center mb-5">
             Notre engagement pour la planète
           </h2>
@@ -75,31 +75,30 @@ const CommitmentsTowardsEnvironmentSection = () => {
             <div className="space-y-4 p-25">
               {Object.entries(items).map(([key, item]) => (
                 <div key={key} className="w-full">
-                                                          <div className={`transition-all duration-500 ease-in-out ${
-                      expandedItem === key ? 'transform scale-105' : ''
+                  <div className={`transition-all duration-500 ease-in-out ${expandedItem === key ? 'transform scale-105' : ''
                     }`}>
-                      {expandedItem === key ? (
-                        // Expanded state - Blue box with title and description
-                        <div className="primary-blue-bg text-white p-8 rounded-3xl mr-40 transform transition-all duration-500 ease-in-out">
-                          <div className="flex items-center">
-                            <span className="font-gantari font-extrabold italic text-3xl pb-2">{item.title}</span>
-                          </div>
-                          <span className="font-gantari font-base text-base leading-none">
-                            {item.description}
-                          </span>
+                    {expandedItem === key ? (
+                      // Expanded state - Blue box with title and description
+                      <div className="primary-blue-bg text-white p-8 rounded-3xl mr-40 transform transition-all duration-500 ease-in-out">
+                        <div className="flex items-center">
+                          <span className="font-gantari font-extrabold italic text-3xl pb-2">{item.title}</span>
                         </div>
-                      ) : (
-                        // Collapsed state - Button
-                        <button
-                          onClick={() => handleItemClick(key)}
-                          className="w-full text-left p-4 rounded-xl bg-white text-[#989898] hover:text-black transition-all duration-300 hover:scale-105"
-                        >
-                          <div className="flex items-center">
-                            <span className="font-gantari font-extrabold italic text-2xl">{item.title}</span>
-                          </div>
-                        </button>
-                      )}
-                    </div>
+                        <span className="font-gantari font-base text-base leading-none">
+                          {item.description}
+                        </span>
+                      </div>
+                    ) : (
+                      // Collapsed state - Button
+                      <button
+                        onClick={() => handleItemClick(key)}
+                        className="w-full text-left p-4 rounded-xl bg-white text-[#989898] hover:text-black transition-all duration-300 hover:scale-105"
+                      >
+                        <div className="flex items-center">
+                          <span className="font-gantari font-extrabold italic text-2xl">{item.title}</span>
+                        </div>
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

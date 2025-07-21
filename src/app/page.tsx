@@ -2,7 +2,9 @@ import HeroSection from '@/components/HeroSection'
 import ServicesSection from '@/components/ServicesSection'
 import CommitmentsSection from '@/components/CommitmentsSection'
 import CommitmentsTowardsEnvironmentSection from '@/components/CommitmentsTowardsEnvironmentSection'
-import CoverageAreaSection from '@/components/CoverageAreaSection'
+import TransportAvailabilitySection from '@/components/TransportAvailabilitySection'
+import CTASection from '@/components/CTASection'
+import Faq from '@/components/faq'
 
 export default function Home() {
   return (
@@ -11,7 +13,9 @@ export default function Home() {
       <ServicesSection />
       <CommitmentsSection />
       <CommitmentsTowardsEnvironmentSection />
-      <CoverageAreaSection />
+      <TransportAvailabilitySection />
+      <CTASection />
+      <Faq />
     </main>
   )
 } 
