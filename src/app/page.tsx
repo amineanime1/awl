@@ -5,6 +5,9 @@ import HeroSection from '@/components/HeroSection'
 import ServicesSection from '@/components/ServicesSection'
 import CommitmentsSection from '@/components/CommitmentsSection'
 import CommitmentsTowardsEnvironmentSection from '@/components/CommitmentsTowardsEnvironmentSection'
+import TransportAvailabilitySection from '@/components/TransportAvailabilitySection'
+import CTASection from '@/components/CTASection'
+import Faq from '@/components/faq'
 import CoverageAreaSection from '@/components/CoverageAreaSection'
 import MissionSection from '@/components/MissionSection'
 import { useSectionTransition } from '@/hooks/useSectionTransition'
@@ -40,7 +43,10 @@ export default function Home() {
       <ServicesSection />
       <CommitmentsSection />
       <CommitmentsTowardsEnvironmentSection />
+      <TransportAvailabilitySection />
       <CoverageAreaSection />
+      <CTASection />
+      <Faq />
     </main>
   )
 } 
