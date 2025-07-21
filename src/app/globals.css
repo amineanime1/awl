@@ -39,7 +39,7 @@
 
 --primary-blue: #0C91DF;
 
-
+--light-blue: #F7F8FA;
 
   }
  
@@ -50,6 +50,10 @@
 
   .primary-blue-bg {
     background-color: var(--primary-blue);
+  }
+
+  .light-blue-bg {
+    background-color: var(--light-blue);
   }
 
   .dark {
@@ -89,5 +93,76 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Animations de transition entre sections */
+@layer components {
+  .section-transition {
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
+  }
+  
+  .hero-slide-up {
+    transform: translateY(-100vh) scale(0.95);
+    opacity: 0;
+  }
+  
+  .hero-slide-down {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  
+  .mission-slide-in {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  
+  .mission-slide-out {
+    transform: translateY(100vh) scale(0.95);
+    opacity: 0;
+  }
+  
+  .section-overlap {
+    position: relative;
+    z-index: 20;
+  }
+  
+  .section-under {
+    position: relative;
+    z-index: 10;
+    margin-top: -100vh;
+  }
+  
+  /* Animation d'entrée pour la section Mission */
+  .mission-enter {
+    animation: missionEnter 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  @keyframes missionEnter {
+    0% {
+      transform: translateY(100vh) scale(0.95);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Animation de sortie pour la section Hero */
+  .hero-exit {
+    animation: heroExit 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  @keyframes heroExit {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) scale(0.95);
+      opacity: 0;
+    }
   }
 } 
