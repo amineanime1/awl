@@ -53,7 +53,7 @@ const CommitmentsTowardsEnvironmentSection = () => {
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white mb-24">
       <div className="container mx-auto px-4">
         {/* Top Section */}
         <div className="text-center mb-36">
@@ -79,7 +79,7 @@ const CommitmentsTowardsEnvironmentSection = () => {
                     }`}>
                     {expandedItem === key ? (
                       // Expanded state - Blue box with title and description
-                      <div className="primary-blue-bg text-white p-8 rounded-3xl mr-40 transform transition-all duration-500 ease-in-out">
+                      <div className="primary-blue-bg text-white p-8 rounded-3xl lg:mx-12 xl:mr-40 transform transition-all duration-500 ease-in-out">
                         <div className="flex items-center">
                           <span className="font-gantari font-extrabold italic text-3xl pb-2">{item.title}</span>
                         </div>
@@ -123,14 +123,14 @@ const CommitmentsTowardsEnvironmentSection = () => {
         </div>
 
         {/* Bottom Section - Call to Action */}
-        <div className="text-center m-40">
-          <h3 className="font-gantari text-3xl font-bold text-black mb-4">
+        <div className="text-center md:m-40">
+          <h3 className="font-gantari text-2xl font-bold text-black mb-4">
             Livrer proprement, c'est livrer durablement
           </h3>
-          <p className="text-sm text-center text-gray-700 mb-8 mx-auto font-gantari font-medium">
+          <p className=" text-center text-gray-700 mb-8 mx-auto font-gantari font-medium">
             Prêt à faire livrer vos marchandises avec efficacité et conscience?<br /> Obtenez un devis personnalisé en quelques clics.<br /> C'est rapide, gratuit, et pensé pour demain.
           </p>
-          <button className="primary-blue-bg text-white px-8 py-3 rounded-full font-medium hover:bg-[#0C7EC0] transition-colors flex items-center mx-auto -mt-3">
+          <button className="primary-blue-bg text-white px-8 py-4 rounded-full font-semibold hover:bg-[#0C7EC0] transition-colors flex items-center mx-auto -mt-3 shadow-lg">
             Obtenez un devis personnalisé
             <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

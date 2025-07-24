@@ -1,6 +1,6 @@
 export default function MissionSection() {
   return (
-    <section className="py-16 px-4 bg-white" data-section="mission">
+    <section className="pt-16 pb-20 px-4 bg-white" data-section="mission">
       <div className="max-w-6xl mx-auto">
         {/* Badge et Titre */}
         <div className="text-center mb-12">
@@ -42,18 +42,18 @@ export default function MissionSection() {
                   Du colis au véhicule, nos solutions de transport léger s'adaptent à <span className="font-bold">vos</span> besoins.
                 </p>
                 
-                <blockquote className="text-lg text-gray-800 mb-8 italic border-l-4 border-blue-500 pl-4">
+                <blockquote className="text-lg text-gray-800 mb-8 italic border-l-4 border-primary-blue pl-4">
                   "Livrer vite, bien, et toujours à l'heure — c'est <span className="font-bold">notre</span> promesse."
                 </blockquote>
                 
                 {/* Signature/Logo */}
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white border-2 border-blue-600 rounded-full flex items-center justify-center">
-                    <div className="w-6 h-6 bg-blue-600 rounded-sm"></div>
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                    <img src="/svg/awl-logo-icon-dark.svg" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">signé AWL</p>
-                    <p className="text-sm text-gray-500 italic">&lt;&lt;Auto Wave Logistic&gt;&gt;</p>
+                    <p className="text-sm font-bold dark-blue italic">signé AWL</p>
+                    <p className="text-sm font-bold dark-blue italic">«Auto Wave Logistic»</p>
                   </div>
                 </div>
               </div>
@@ -62,8 +62,8 @@ export default function MissionSection() {
             {/* Colonne droite - Image */}
             <div className="relative">
               {/* Placeholder pour l'image du camion de livraison */}
-              <div className="w-full h-full min-h-[400px] bg-gradient-to-br from-gray-200 to-gray-300 rounded-r-2xl flex items-center justify-center">
-                <div className="text-center text-gray-500">
+              <div className="w-full min-h-[300px] max-h-[300px] bg-gradient-to-br from-gray-200 to-gray-300 rounded-r-2xl flex items-center justify-center">
+                {/* <div className="text-center text-gray-500">
                   <div className="w-16 h-16 bg-gray-400 rounded-lg mx-auto mb-4 flex items-center justify-center">
                     <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
@@ -71,7 +71,9 @@ export default function MissionSection() {
                   </div>
                   <p className="text-sm">Image du camion de livraison</p>
                   <p className="text-xs mt-1">(Placeholder)</p>
-                </div>
+                </div> */}
+
+                <img src="/images/awl-mission.png" alt="AWL Mission" className="w-full h-full object-cover" />
               </div>
             </div>
             

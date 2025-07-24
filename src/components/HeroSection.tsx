@@ -68,15 +68,9 @@ export default function HeroSection({ onTransitionTrigger }: HeroSectionProps) {
       {/* Indicateur de scroll en bas */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 text-center">
         <p className="font-gantari text-sm mb-2">Découvrez la suite en bas</p>
-        <button 
-          onClick={onTransitionTrigger}
-          className="group flex flex-col items-center gap-2 hover:scale-110 transition-transform duration-300"
-        >
-          <svg className="w-6 h-6 mx-auto animate-bounce group-hover:animate-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6 mx-auto animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
-          <span className="text-xs opacity-75">Cliquez pour découvrir</span>
-        </button>
       </div>
     </section>
   )
