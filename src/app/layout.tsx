@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Navbar } from '@/components/navbar'
-import { Footer } from '@/components/footer'
+import { AuthProvider } from '@/contexts/AuthContext'
+import ConditionalLayout from '@/components/ConditionalLayout'
 import { WhatsAppButton } from '@/components/whatsapp-button'
 import { metadata } from './metadata'
 
@@ -20,14 +20,16 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <Footer />
-          <WhatsAppButton />
+          <AuthProvider>
+            <ConditionalLayout>
+              {children}
+            </ConditionalLayout>
+            <WhatsAppButton />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

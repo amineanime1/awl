@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export function Footer() {
   return (
-    <footer className="footer-blue text-white rounded-t-3xl">
+    <footer className="footer-blue text-white ">
      
       <div className="container mx-auto px-4 py-8 sm:py-12">
         {/* Pour positionner le logo juste au-dessus de la section container, on utilise un parent relatif */}

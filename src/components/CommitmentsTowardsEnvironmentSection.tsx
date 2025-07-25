@@ -1,55 +1,43 @@
 "use client"
 
 import React, { useState } from 'react'
+import type { EnvironmentalCommitmentData } from '@/lib/supabase/server'
 
-interface ItemData {
-  title: string
-  description: string
-  details: string
-  image: string
-  imageAlt: string
+interface CommitmentsTowardsEnvironmentSectionProps {
+  commitments: EnvironmentalCommitmentData[]
 }
 
-interface ItemsData {
-  [key: string]: ItemData
-}
+const CommitmentsTowardsEnvironmentSection = ({ commitments }: CommitmentsTowardsEnvironmentSectionProps) => {
+  const [expandedItem, setExpandedItem] = useState<string>('')
 
-const CommitmentsTowardsEnvironmentSection = () => {
-  const [expandedItem, setExpandedItem] = useState<string>('optimisation')
-
-  const items: ItemsData = {
-    optimisation: {
-      title: "Optimisation des trajets",
-      description: "Moins de kilomètres = moins d'émissions.Nos livraisons sont pensées pour éviter les détours inutiles et réduire la consommation.",
-      details: "Nos algorithmes de planification intelligente analysent en temps réel les conditions de trafic, la météo et les contraintes logistiques pour optimiser chaque trajet. Résultat : jusqu'à 25% de réduction des émissions CO2 et une livraison plus rapide.",
-      image: "🗺️",
-      imageAlt: "Carte de route optimisée avec trajets intelligents"
-    },
-    flotte: {
-      title: "Flotte responsable",
-      description: "Véhicules récents, entretenus, et < 3,5 T pour une empreinte plus légère.La puissance sans le poids carbone.",
-      details: "100% de nos véhicules sont équipés de technologies de pointe : moteurs hybrides, systèmes de récupération d'énergie, et monitoring en temps réel des performances. Nous renouvelons notre flotte tous les 3 ans pour garantir les meilleures normes écologiques.",
-      image: "🚛",
-      imageAlt: "Camion moderne avec technologies vertes"
-    },
-    ecoConduite: {
-      title: "Éco-conduite au quotidien",
-      description: "Nos chauffeurs sont formés à l’éco-conduite : freinage doux, accélération maîtrisée et respect des vitesses.De petits gestes, un grand impact.",
-      details: "Formation continue de nos équipes aux techniques d'éco-conduite : anticipation du trafic, gestion optimale des vitesses, et maintenance préventive. Chaque chauffeur suit un programme personnalisé avec suivi des performances et récompenses pour les meilleurs résultats.",
-      image: "🌱",
-      imageAlt: "Chauffeur formé à l'éco-conduite"
-    },
-    zeroPapier: {
-      title: "Zéro papier, 100% digital",
-      description: "Fiches de mission, suivi client et documents sont dématérialisés.Moins de papier, plus d’efficacité — pour vous et pour l’environnement.",
-      details: "Plateforme digitale complète : bons de livraison électroniques, facturation numérique, suivi en temps réel, et archivage cloud sécurisé. Économie de plus de 50 000 feuilles par an et processus 100% traçable et transparent.",
-      image: "📱",
-      imageAlt: "Interface digitale moderne pour la gestion logistique"
-    }
+  // Si aucun engagement n'est disponible, afficher un message
+  if (!commitments || commitments.length === 0) {
+    return (
+      <section className="py-16 bg-white mb-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-36">
+            <div className="inline-flex items-center gap-2 py-2">
+              <img src="/svg/awl-wave-vert.svg" alt="AWL Logo" className="w-10 h-10" />
+              <span className="text-md font-light italic font-gantari">Livrer Vite, sans négliger demain</span>
+            </div>
+            <h2 className="font-gasoek text-4xl text-center mb-5">
+              Notre engagement pour la planète
+            </h2>
+            <p className="font-gantari text-lg max-w-2xl mx-auto font-medium">
+              Engagements en cours de configuration...
+            </p>
+          </div>
+        </div>
+      </section>
+    )
   }
 
-  const handleItemClick = (key: string) => {
-    setExpandedItem(key)
+  // Définir le premier engagement comme expanded par défaut
+  const defaultExpanded = commitments.length > 0 ? commitments[0].id.toString() : ''
+  const [expandedItemId, setExpandedItemId] = useState<string>(defaultExpanded)
+
+  const handleItemClick = (id: string) => {
+    setExpandedItemId(id)
   }
 
   return (
@@ -69,32 +57,33 @@ const CommitmentsTowardsEnvironmentSection = () => {
           </p>
         </div>
 
-        {/* Central Content Area */}<div className="relative mb-12">
+        {/* Central Content Area */}
+        <div className="relative mb-12">
           <div className="relative grid lg:grid-cols-2 gap-8 items-start">
             {/* Left Side - Expandable Buttons */}
             <div className="space-y-4 p-25">
-              {Object.entries(items).map(([key, item]) => (
-                <div key={key} className="w-full">
-                  <div className={`transition-all duration-500 ease-in-out ${expandedItem === key ? 'transform scale-105' : ''
+              {commitments.map((commitment) => (
+                <div key={commitment.id} className="w-full">
+                  <div className={`transition-all duration-500 ease-in-out ${expandedItemId === commitment.id.toString() ? 'transform scale-105' : ''
                     }`}>
-                    {expandedItem === key ? (
+                    {expandedItemId === commitment.id.toString() ? (
                       // Expanded state - Blue box with title and description
-                      <div className="primary-blue-bg text-white p-8 rounded-3xl lg:mx-12 xl:mr-40 transform transition-all duration-500 ease-in-out">
+                      <div className="primary-blue-bg text-white p-8 rounded-3xl lg:mx-12 xl:mr-40 xl:m-0 transform transition-all duration-500 ease-in-out">
                         <div className="flex items-center">
-                          <span className="font-gantari font-extrabold italic text-3xl pb-2">{item.title}</span>
+                          <span className="font-gantari font-extrabold italic text-3xl pb-2">{commitment.title}</span>
                         </div>
                         <span className="font-gantari font-base text-base leading-none">
-                          {item.description}
+                          {commitment.description}
                         </span>
                       </div>
                     ) : (
                       // Collapsed state - Button
                       <button
-                        onClick={() => handleItemClick(key)}
+                        onClick={() => handleItemClick(commitment.id.toString())}
                         className="w-full text-left p-4 rounded-xl bg-white text-[#989898] hover:text-black transition-all duration-300 hover:scale-105"
                       >
                         <div className="flex items-center">
-                          <span className="font-gantari font-extrabold italic text-2xl">{item.title}</span>
+                          <span className="font-gantari font-extrabold italic text-2xl">{commitment.title}</span>
                         </div>
                       </button>
                     )}
@@ -103,19 +92,52 @@ const CommitmentsTowardsEnvironmentSection = () => {
               ))}
             </div>
 
-            {/* Right Side - Dynamic Image */}
+            {/* Right Side - Dynamic Image/Emoji */}
             <div className="relative">
               <div className="bg-gradient-to-br from-blue-50 to-green-50 rounded-lg p-8 min-h-[400px] flex items-center justify-center">
                 <div className="text-center">
-                  <div className="text-8xl mb-4">
-                    {expandedItem ? items[expandedItem].image : "🌍"}
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-800 mb-2">
-                    {expandedItem ? items[expandedItem].title : "Nos engagements"}
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    {expandedItem ? items[expandedItem].imageAlt : "Cliquez sur un engagement pour en savoir plus"}
-                  </p>
+                  {expandedItemId && (() => {
+                    const currentCommitment = commitments.find(c => c.id.toString() === expandedItemId)
+                    if (!currentCommitment) return null
+                    
+                    return (
+                      <>
+                        {currentCommitment.image_url ? (
+                          // Afficher l'image si disponible
+                          <div className="mb-4">
+                            <img 
+                              src={currentCommitment.image_url} 
+                              alt={currentCommitment.image_alt}
+                              className="mx-auto max-w-48 max-h-48 object-cover rounded-lg shadow-lg"
+                              onError={(e) => {
+                                // Fallback vers l'emoji si l'image ne charge pas
+                                const img = e.currentTarget as HTMLImageElement;
+                                img.style.display = 'none';
+                                const emojiDiv = img.parentElement?.querySelector('.emoji-fallback');
+                                if (emojiDiv) {
+                                  (emojiDiv as HTMLElement).style.display = 'block';
+                                }
+                              }}
+                            />
+                            <div className="hidden text-8xl mb-4 emoji-fallback">
+                              {currentCommitment.emoji}
+                            </div>
+                          </div>
+                        ) : (
+                          // Afficher l'emoji si pas d'image
+                          <div className="text-8xl mb-4">
+                            {currentCommitment.emoji}
+                          </div>
+                        )}
+                        <h4 className="text-xl font-semibold text-gray-800 mb-2">
+                          {currentCommitment.title}
+                        </h4>
+                        <p className="text-gray-600 text-sm">
+                          {currentCommitment.image_alt || "Cliquez sur un engagement pour en savoir plus"}
+                        </p>
+                      </>
+                    )
+                  })()}
                 </div>
               </div>
             </div>

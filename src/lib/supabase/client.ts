@@ -1,36 +1,57 @@
 import { createClient } from '@supabase/supabase-js'
 
+// Variables publiques (accessibles côté client)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
+// Client Supabase côté client (avec anon key)
+export const supabase = createClient(
+  supabaseUrl || '',
+  supabaseAnonKey || ''
+)
+
+// Types pour les données (réexportés depuis server.ts)
+export interface MissionData {
+  quote_text: string
+  image_url: string
+  image_alt: string
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-export type Service = {
-  id: string
+export interface ServiceData {
+  id: number
   title: string
   description: string
-  icon: string
-  created_at: string
+  icon_name: string
+  color_class: string
+  display_order: number
+  is_active: boolean
 }
 
-export type Message = {
-  id: string
+export interface FleetVehicleData {
+  id: number
   name: string
-  email: string
-  message: string
-  read: boolean
-  created_at: string
+  description: string
+  image_url: string
+  image_alt: string
+  display_order: number
+  is_active: boolean
 }
 
-export type Content = {
-  id: string
-  page: string
-  section: string
-  content: string
-  created_at: string
-  updated_at: string
+export interface EnvironmentalCommitmentData {
+  id: number
+  title: string
+  description: string
+  details: string
+  emoji: string
+  image_alt: string
+  display_order: number
+  is_active: boolean
+}
+
+export interface FaqItemData {
+  id: number
+  question: string
+  answer: string
+  display_order: number
+  is_active: boolean
 } 

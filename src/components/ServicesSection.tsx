@@ -5,6 +5,7 @@ import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
 import { FaTruck, FaBox, FaCar, FaClock, FaRoute, FaFlag } from 'react-icons/fa'
 import { MdLocalShipping, MdSpeed } from 'react-icons/md'
+import type { ServiceData } from '@/lib/supabase/server'
 
 interface ServiceCard {
   id: number
@@ -14,47 +15,34 @@ interface ServiceCard {
   color: string
 }
 
-const services: ServiceCard[] = [
-  {
-    id: 1,
-    title: "Transport de colis et marchandises diverses",
-    description: "Pour vos meubles, cartons, palettes ou matériaux — on s'adapte à tous les formats.",
-    icon: FaTruck,
-    color: "text-blue-600"
-  },
-  {
-    id: 2,
-    title: "Livraison urgente ou planifiée",
-    description: "Courses express ou livraisons programmées : vous choisissez le bon timing.",
-    icon: MdSpeed,
-    color: "text-orange-500"
-  },
-  {
-    id: 3,
-    title: "Tournées régulières",
-    description: "Idéal pour les pros : des livraisons récurrentes avec trajets optimisés.",
-    icon: FaRoute,
-    color: "text-green-600"
-  },
-  {
-    id: 4,
-    title: "Transport de véhicules",
-    description: "Livraison de voitures sur plateau homologué pour concessionnaires et particuliers.",
-    icon: FaCar,
-    color: "text-purple-600"
-  },
-  {
-    id: 5,
-    title: "Produits sensibles et médicaux",
-    description: "Transport sécurisé de médicaments et produits sensibles avec respect des normes.",
-    icon: FaBox,
-    color: "text-red-600"
-  }
-]
+// Mapping des icônes par nom
+const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = {
+  FaTruck,
+  FaBox,
+  FaCar,
+  FaClock,
+  FaRoute,
+  FaFlag,
+  MdLocalShipping,
+  MdSpeed
+}
 
-export default function ServicesSection() {
+interface ServicesSectionProps {
+  services: ServiceData[]
+}
+
+export default function ServicesSection({ services }: ServicesSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
+  
+  // Convertir les données de la base en ServiceCard
+  const serviceCards: ServiceCard[] = services.map(service => ({
+    id: service.id,
+    title: service.title,
+    description: service.description,
+    icon: iconMap[service.icon_name] || FaTruck, // Fallback vers FaTruck
+    color: service.color_class
+  }))
   
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
@@ -97,6 +85,28 @@ export default function ServicesSection() {
     return () => clearInterval(interval)
   }, [instanceRef, isHovering])
 
+  // Si aucun service n'est disponible, afficher un message ou retourner null
+  if (!services || services.length === 0) {
+    return (
+      <section className="py-20 bg-gradient-to-b from-[#17A9FF] to-[#0C79DF] relative overflow-hidden rounded-t-3xl">
+        <div className="mx-auto px-4 relative z-10">
+          <div className="text-center mb-32">
+            <div className="inline-flex items-center gap-2 py-2">
+              <img src="/svg/awl-wave-orange.svg" alt="AWL wave" className="w-10 h-10" />
+              <span className="text-md font-light italic font-gantari text-white/80">Des solutions adaptées à chaque besoin</span>
+            </div>
+            <h2 className="font-gasoek text-4xl text-white mb-6">
+              Nos Services
+            </h2>
+            <p className="text-lg text-white/80 max-w-3xl mx-auto font-light">
+              Services en cours de configuration...
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className="py-20 bg-gradient-to-b from-[#17A9FF] to-[#0C79DF] relative overflow-hidden rounded-t-3xl">
       {/* Fond avec effet de vague */}
@@ -105,15 +115,10 @@ export default function ServicesSection() {
       <div className="mx-auto px-4 relative z-10">
         {/* En-tête */}
         <div className="text-center mb-32">
-          {/* Badge d'introduction */}
-          {/* <div className="inline-flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-full mb-6">
-            <FaFlag className="text-sm" />
-            <span className="text-sm font-medium">Des solutions adaptées à chaque besoin</span>
-          </div> */}
-              <div className="inline-flex items-center gap-2 py-2">
-              <img src="/svg/awl-wave-orange.svg" alt="AWL wave" className="w-10 h-10" />
-              <span className="text-md font-light italic font-gantari text-white/80">Des solutions adaptées à chaque besoin</span>
-            </div>
+          <div className="inline-flex items-center gap-2 py-2">
+            <img src="/svg/awl-wave-orange.svg" alt="AWL wave" className="w-10 h-10" />
+            <span className="text-md font-light italic font-gantari text-white/80">Des solutions adaptées à chaque besoin</span>
+          </div>
           {/* Titre principal */}
           <h2 className="font-gasoek text-4xl text-white mb-6">
             Nos Services
@@ -133,7 +138,7 @@ export default function ServicesSection() {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
-            {services.map((service, index) => {
+            {serviceCards.map((service, index) => {
               // Avec perView: 3, la carte active est celle du milieu (index 1)
               const isActive = index === currentSlide
               const IconComponent = service.icon
@@ -189,7 +194,7 @@ export default function ServicesSection() {
 
         {/* Indicateurs de navigation */}
         <div className="flex justify-center gap-2 mb-32">
-          {services.map((_, index) => (
+          {serviceCards.map((_, index) => (
             <button
               key={index}
               onClick={() => {

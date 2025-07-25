@@ -2,34 +2,11 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import type { FaqItemData } from '@/lib/supabase/server'
 
-interface FaqItem {
-    question: string;
-    answer: string;
+interface FaqProps {
+  items: FaqItemData[]
 }
-
-const faqItems: FaqItem[] = [
-    {
-        question: "Quels types de marchandises transportez-vous ?",
-        answer: "Nous assurons le transport de colis, palettes, matériels professionnels, documents sensibles ou tout autre type de marchandise nécessitant un acheminement rapide, sécurisé et soigné."
-    },
-    {
-        question: "Proposez-vous des livraisons urgentes ?",
-        answer: "Oui, nous proposons un service de livraison express pour répondre aux besoins urgents de nos clients, avec une prise en charge rapide partout en France."
-    },
-    {
-        question: "Comment obtenir un devis ?",
-        answer: "Vous pouvez obtenir un devis personnalisé en quelques clics via notre formulaire en ligne. Une réponse rapide vous sera envoyée dans les plus brefs délais."
-    },
-    {
-        question: "Où intervenez-vous ?",
-        answer: "AWL intervient sur l'ensemble du territoire français, y compris en zones urbaines, rurales et industrielles."
-    },
-    {
-        question: "Vos véhicules sont-ils adaptés aux livraisons sensibles ?",
-        answer: "Oui, notre flotte est composée de véhicules entretenus et adaptés aux livraisons sensibles : sécurisation, suivi et conditions de transport respectées."
-    }
-];
 
 function ChevronIcon({ isOpen }: { isOpen: boolean }) {
     return (
@@ -52,7 +29,7 @@ function ChevronIcon({ isOpen }: { isOpen: boolean }) {
 }
 
 function AccordionItem({ item, isOpen, onToggle, isLast }: {
-    item: FaqItem;
+    item: FaqItemData;
     isOpen: boolean;
     onToggle: () => void;
     isLast: boolean;
@@ -85,8 +62,30 @@ function AccordionItem({ item, isOpen, onToggle, isLast }: {
     );
 }
 
-export default function Faq() {
+export default function Faq({ items }: FaqProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+    // Si aucun item FAQ n'est disponible, afficher un message
+    if (!items || items.length === 0) {
+        return (
+            <section className="bg-white mb-24">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-16 py-16 md:py-20 lg:py-24 flex flex-col items-center justify-center">
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center gap-2 py-2">
+                            <img src="/svg/awl-wave-rouge.svg" alt="AWL Logo" className="w-10 h-10" />
+                            <span className="text-md font-light italic font-gantari">Tout ce que vous devez savoir</span>
+                        </div>
+                        <h2 className="font-gasoek text-4xl text-center mb-5">
+                            Foire aux questions
+                        </h2>
+                        <p className="font-gantari text-lg max-w-2xl mx-auto font-medium">
+                            FAQ en cours de configuration...
+                        </p>
+                    </div>
+                </div>
+            </section>
+        )
+    }
 
     return (
         <section className="bg-white mb-24">
@@ -104,13 +103,13 @@ export default function Faq() {
           </p>
                   </div>
                                 <div className="w-full max-w-3xl mx-auto mb-12">
-                    {faqItems.map((item, index) => (
+                    {items.map((item, index) => (
                         <AccordionItem
-                            key={index}
+                            key={item.id}
                             item={item}
                             isOpen={openIndex === index}
                             onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-                            isLast={index === faqItems.length - 1}
+                            isLast={index === items.length - 1}
                         />
                     ))}
                 </div>

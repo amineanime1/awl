@@ -1,4 +1,10 @@
-export default function MissionSection() {
+interface MissionSectionProps {
+  quoteText: string
+  imageUrl: string
+  imageAlt: string
+}
+
+export default function MissionSection({ quoteText, imageUrl, imageAlt }: MissionSectionProps) {
   return (
     <section className="pt-16 pb-20 px-4 bg-white" data-section="mission">
       <div className="max-w-6xl mx-auto">
@@ -43,7 +49,7 @@ export default function MissionSection() {
                 </p>
                 
                 <blockquote className="text-lg text-gray-800 mb-8 italic border-l-4 border-primary-blue pl-4">
-                  "Livrer vite, bien, et toujours à l'heure — c'est <span className="font-bold">notre</span> promesse."
+                  {quoteText}
                 </blockquote>
                 
                 {/* Signature/Logo */}
@@ -61,9 +67,19 @@ export default function MissionSection() {
             
             {/* Colonne droite - Image */}
             <div className="relative">
-              {/* Placeholder pour l'image du camion de livraison */}
-              <div className="w-full min-h-[300px] max-h-[300px] bg-gradient-to-br from-gray-200 to-gray-300 rounded-r-2xl flex items-center justify-center">
-                {/* <div className="text-center text-gray-500">
+              {/* Image dynamique depuis la base de données */}
+              <div className="w-full min-h-[300px] max-h-[300px] bg-gradient-to-br from-gray-200 to-gray-300 rounded-r-2xl flex items-center justify-center overflow-hidden">
+                <img 
+                  src={imageUrl} 
+                  alt={imageAlt} 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback en cas d'erreur de chargement
+                    e.currentTarget.style.display = 'none'
+                    e.currentTarget.nextElementSibling!.style.display = 'flex'
+                  }}
+                />
+                <div className="hidden text-center text-gray-500">
                   <div className="w-16 h-16 bg-gray-400 rounded-lg mx-auto mb-4 flex items-center justify-center">
                     <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
@@ -71,9 +87,7 @@ export default function MissionSection() {
                   </div>
                   <p className="text-sm">Image du camion de livraison</p>
                   <p className="text-xs mt-1">(Placeholder)</p>
-                </div> */}
-
-                <img src="/images/awl-mission.png" alt="AWL Mission" className="w-full h-full object-cover" />
+                </div>
               </div>
             </div>
             
