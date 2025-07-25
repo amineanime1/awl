@@ -88,7 +88,7 @@ const TransportAvailabilitySection = () => {
 
             {/* CTA Button */}
             <div className="pt-4">
-              <button className="primary-blue-bg text-white px-4 md:px-6 py-2.5 md:py-3 rounded-full font-medium hover:bg-[#0C7EC0] transition-colors flex items-center text-sm md:text-base">
+              <button className="primary-blue-bg text-white px-6 md:px-8 py-3 md:py-4 shadow-lg rounded-full font-semibold hover:bg-[#0C7EC0] transition-colors flex items-center text-sm md:text-base">
                 Demander un devis 
                 <svg className="w-4 h-4 md:w-5 md:h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

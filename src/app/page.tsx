@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import HeroSection from '@/components/HeroSection'
 import ServicesSection from '@/components/ServicesSection'
 import CommitmentsSection from '@/components/CommitmentsSection'
@@ -10,41 +10,56 @@ import CTASection from '@/components/CTASection'
 import Faq from '@/components/faq'
 import CoverageAreaSection from '@/components/CoverageAreaSection'
 import MissionSection from '@/components/MissionSection'
+import FleetSection from '@/components/FleetSection'
 import { useSectionTransition } from '@/hooks/useSectionTransition'
 
 export default function Home() {
-  const { isTransitioning, heroClass, missionClass, startTransition } = useSectionTransition()
-  const [hasScrolled, setHasScrolled] = useState(false)
+  const { 
+    isTransitioning, 
+    heroClass, 
+    missionClass, 
+    startTransition, 
+    heroRef, 
+    missionRef 
+  } = useSectionTransition()
 
+  // Empêcher le scroll pendant la transition
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      const heroHeight = window.innerHeight
-      
-      // Déclencher la transition quand on scrolle au-delà de 50% de la hauteur du hero
-      if (scrollPosition > heroHeight * 0.5 && !hasScrolled) {
-        setHasScrolled(true)
-        startTransition()
-      }
+    if (isTransitioning) {
+      document.body.classList.add('no-scroll')
+    } else {
+      document.body.classList.remove('no-scroll')
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [hasScrolled, startTransition])
+    return () => {
+      document.body.classList.remove('no-scroll')
+    }
+  }, [isTransitioning])
 
   return (
     <main className="flex min-h-screen flex-col">
-      <div className={`section-overlap ${heroClass} section-transition`}>
-        <HeroSection onTransitionTrigger={startTransition} />
-      </div>
-      <div className={`section-under ${missionClass} section-transition`}>
+      {/* Container Hero avec animation */}
+      {/* <div 
+        ref={heroRef}
+        className={`hero-container ${heroClass} will-change-transform`}
+      > */}
+        <HeroSection />
+      {/* </div> */}
+      
+      {/* Container Mission avec révélation */}
+      {/* <div 
+        ref={missionRef}
+        className={`mission-container ${missionClass} will-change-opacity`}
+      > */}
         <MissionSection />
-      </div>
+      {/* </div> */}
+      
+      {/* Sections suivantes */}
       <ServicesSection />
-      <CommitmentsSection />
+      <FleetSection />
+  
       <CommitmentsTowardsEnvironmentSection />
-      <TransportAvailabilitySection />
-      <CoverageAreaSection />
+      <TransportAvailabilitySection /> 
       <CTASection />
       <Faq />
     </main>

@@ -1,117 +1,122 @@
 import Link from 'next/link'
-import { FaWhatsapp, FaEnvelope, FaPhone, FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'
+import Image from 'next/image'
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Auto Wave Logistic</h3>
-            <p className="text-gray-400 mb-4">
-              Votre partenaire de confiance pour le transport de marchandises depuis plus de 15 ans.
-            </p>
-            <div className="flex space-x-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <FaFacebook size={24} />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <FaTwitter size={24} />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <FaLinkedin size={24} />
-              </a>
-            </div>
+    <footer className="footer-blue text-white rounded-t-3xl">
+     
+      <div className="container mx-auto px-4 py-8 sm:py-12">
+        {/* Pour positionner le logo juste au-dessus de la section container, on utilise un parent relatif */}
+        <div className="relative">
+          <div className="absolute -top-16 sm:-top-28 left-1/2 -translate-x-1/2 mb-6">
+            <Image
+              src="/images/logo-footer-awl.png"
+              alt="Auto Wave Logistic"
+              width={150}
+              height={60}
+              className="mx-auto w-32 sm:w-40 md:w-48"
+            />
+          </div>
+        </div>
+        {/* Logo et bouton en haut */}
+        <div className="text-center mb-12 sm:mb-20">
+          
+          <button className="bg-white dark-blue px-6 sm:px-8 py-2 sm:py-3 rounded-full font-bold hover:bg-gray-100 transition-colors flex items-center mx-auto space-x-2 text-sm sm:text-base">
+            <span>Obtenir mon devis</span>
+            <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17l9.2-9.2M17 17V7H7" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Contenu principal en 4 colonnes */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
+          {/* Contact */}
+          <div className="text-center sm:text-left">
+            <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-white/50">Contact</h3>
+            <ul className="space-y-1 sm:space-y-2 text-gray-300 text-sm sm:text-base">
+              <li>support@autowavelogistic.com</li>
+              <li className='italic'>Basé en Île-de-France</li>
+            </ul>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Liens Rapides</h3>
-            <ul className="space-y-2">
+          {/* Liens utiles */}
+          <div className="text-center sm:text-left">
+            <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-white/50">Liens utiles</h3>
+            <ul className="space-y-1 sm:space-y-2 text-gray-300 text-sm sm:text-base">
               <li>
-                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/" className="hover:text-white transition-colors">
                   Accueil
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="text-gray-400 hover:text-white transition-colors">
-                  Services
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Demande de devis
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                  À propos
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact
+                <Link href="/services" className="hover:text-white transition-colors">
+                  Nos Services
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Nos Services</h3>
-            <ul className="space-y-2">
+          {/* Réseaux sociaux */}
+          <div className="text-center sm:text-left">
+            <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-white/50">Réseaux sociaux</h3>
+            <ul className="space-y-1 sm:space-y-2 text-gray-300 text-sm sm:text-base">
               <li>
-                <Link href="/services#transport" className="text-gray-400 hover:text-white transition-colors">
-                  Transport de Marchandises
-                </Link>
+                <a href="#" className="hover:text-white transition-colors">
+                  Instagram
+                </a>
               </li>
               <li>
-                <Link href="/services#ikea" className="text-gray-400 hover:text-white transition-colors">
-                  Livraison IKEA
-                </Link>
+                <a href="#" className="hover:text-white transition-colors">
+                  Linkedin
+                </a>
               </li>
               <li>
-                <Link href="/services#medical" className="text-gray-400 hover:text-white transition-colors">
-                  Transport Médical
-                </Link>
+                <a href="#" className="hover:text-white transition-colors">
+                  TikTok
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition-colors">
+                  Youtube
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Contact</h3>
-            <ul className="space-y-4">
-              <li className="flex items-center space-x-3">
-                <FaPhone className="text-blue-500" />
-                <span>+33 1 23 45 67 89</span>
+          {/* Légal */}
+          <div className="text-center sm:text-left">
+            <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-white/50">Légal</h3>
+            <ul className="space-y-1 sm:space-y-2 text-gray-300 text-sm sm:text-base">
+              <li>
+                <Link href="/privacy" className="hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
               </li>
-              <li className="flex items-center space-x-3">
-                <FaEnvelope className="text-blue-500" />
-                <span>contact@autowave.fr</span>
+              <li>
+                <Link href="/cookies" className="hover:text-white transition-colors">
+                  Cookies
+                </Link>
               </li>
-              <li className="flex items-center space-x-3">
-                <FaWhatsapp className="text-green-500" />
-                <span>WhatsApp: +33 1 23 45 67 89</span>
+              <li>
+                <Link href="/terms" className="hover:text-white transition-colors">
+                  Terms of use
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Auto Wave Logistic. Tous droits réservés.</p>
+        {/* Copyright en bas */}
+        <div className="text-center text-gray-400 text-xs sm:text-sm">
+          <p>
+            &copy; 2025 <a href="https://mowment.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">Mowment</a>.
+          </p>
         </div>
       </div>
     </footer>

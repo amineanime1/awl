@@ -64,7 +64,7 @@ function AccordionItem({ item, isOpen, onToggle, isLast }: {
                 onClick={onToggle}
             >
                 <div className="flex justify-between items-center px-4">
-                    <h3 className="text-xl md:text-2xl font-semibold text-gray-800 pr-8">{item.question}</h3>
+                    <h3 className="text-md md:text-lg font-semibold text-gray-800 pr-8">{item.question}</h3>
                     <div className="text-gray-800">
                         <ChevronIcon isOpen={isOpen} />
                     </div>
@@ -75,7 +75,7 @@ function AccordionItem({ item, isOpen, onToggle, isLast }: {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden px-4"
                 >
-                    <p className="mt-4 text-gray-600 text-lg">
+                    <p className="mt-4 text-gray-600 text-md">
                         {item.answer}
                     </p>
                 </motion.div>
@@ -89,20 +89,20 @@ export default function Faq() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
     return (
-        <section className="bg-white">
+        <section className="bg-white mb-24">
             <div className="container mx-auto px-4 sm:px-6 lg:px-16 py-16 md:py-20 lg:py-24 flex flex-col items-center justify-center">
-
-                <div className="flex items-center justify-center gap-2 -mb-2">
-                    <img src="/svg/awl-wave-rouge.svg" alt="AWL Wave" className="w-10 h-10" />
-                    <span className="text-black text-xs font-gantari font-light italic">Tout ce que vous devez savoir</span>
-                </div>
-                <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-gasoek font-regular text-gray-800 mb-6 text-center">Foire aux questions</h2>
-                <div className="max-w-2xl mx-auto mb-16">
-                    <p className="text-lg md:text-xl text-gray-800 text-center font-gantari font-medium">
-                    Une question sur nos services ou nos délais ? <br /> On a sûrement déjà la réponse juste ici.
-                    </p>
-                </div>
-
+                <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 py-2">
+            <img src="/svg/awl-wave-rouge.svg" alt="AWL Logo" className="w-10 h-10" />
+            <span className="text-md font-light italic font-gantari">Tout ce que vous devez savoir</span>
+          </div>
+          <h2 className="font-gasoek text-4xl text-center mb-5">
+          Foire aux questions
+          </h2>
+          <p className="font-gantari text-lg max-w-2xl mx-auto font-medium">
+          Une question sur nos services ou nos délais ? <br /> On a sûrement déjà la réponse juste ici.
+          </p>
+                  </div>
                                 <div className="w-full max-w-3xl mx-auto mb-12">
                     {faqItems.map((item, index) => (
                         <AccordionItem
@@ -125,7 +125,7 @@ export default function Faq() {
 
                         </button>
                     </div>
-                    <p className="text-sm md:text-sm text-gray-800 text-center font-gantari">Or email us at dev@mowment.com</p>
+                    <p className="text-sm md:text-sm text-gray-800 text-center font-gantari">Or email us at support@autowavelogistic.com</p>
                 </div>
             </div>
         </section>
