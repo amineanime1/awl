@@ -99,31 +99,29 @@ const TransportAvailabilitySection = () => {
 
           {/* Right Side - France Map */}
           <div className="relative order-first md:order-last">
-            <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 lg:p-8 shadow-lg border border-gray-100">
-              <div className="text-center mb-4 md:mb-6">
-                <h3 className="font-gantari font-semibold text-lg md:text-xl text-black mb-1 md:mb-2">Carte de couverture</h3>
-                <p className="font-gantari text-xs md:text-sm text-gray-600">Nos zones de service en France</p>
-              </div>
-              
-              {/* Interactive France Map */}
-              <div className="h-64 sm:h-80 md:h-96">
-                <FranceMap />
-              </div>
+            <div className="text-center mb-4 md:mb-6">
+              <h3 className="font-gantari font-semibold text-lg md:text-xl text-black mb-1 md:mb-2">Carte de couverture</h3>
+              <p className="font-gantari text-xs md:text-sm text-gray-600">Nos zones de service en France</p>
+            </div>
+            
+            {/* Interactive France Map */}
+            <div className="h-64 sm:h-80 md:h-96">
+              <FranceMap />
+            </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-2 md:gap-4 mt-4 md:mt-6">
-                <div className="text-center">
-                  <div className="font-gantari font-bold text-lg md:text-2xl text-blue-600">101</div>
-                  <div className="font-gantari text-xs text-gray-600">Régions</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-gantari font-bold text-lg md:text-2xl text-green-600">30k+</div>
-                  <div className="font-gantari text-xs text-gray-600">Villes</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-gantari font-bold text-lg md:text-2xl text-purple-600">24h/48h</div>
-                  <div className="font-gantari text-xs text-gray-600">Livraison</div>
-                </div>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-2 md:gap-4 mt-4 md:mt-6">
+              <div className="text-center">
+                <div className="font-gantari font-bold text-lg md:text-2xl text-blue-600">101</div>
+                <div className="font-gantari text-xs text-gray-600">Régions</div>
+              </div>
+              <div className="text-center">
+                <div className="font-gantari font-bold text-lg md:text-2xl text-green-600">30k+</div>
+                <div className="font-gantari text-xs text-gray-600">Villes</div>
+              </div>
+              <div className="text-center">
+                <div className="font-gantari font-bold text-lg md:text-2xl text-purple-600">24h/48h</div>
+                <div className="font-gantari text-xs text-gray-600">Livraison</div>
               </div>
             </div>
           </div>
