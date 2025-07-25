@@ -7,18 +7,54 @@ interface TooltipData {
   y: number
   name: string
   visible: boolean
+  position: 'top' | 'bottom'
 }
 
 const FranceMap: React.FC = () => {
   const [hoveredDept, setHoveredDept] = useState<string | null>(null)
   const [selectedDept, setSelectedDept] = useState<string | null>(null)
-  const [tooltip, setTooltip] = useState<TooltipData>({ x: 0, y: 0, name: '', visible: false })
-  const [scale, setScale] = useState(1)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const [tooltip, setTooltip] = useState<TooltipData>({ x: 0, y: 0, name: '', visible: false, position: 'top' })
   const [showInstructions, setShowInstructions] = useState(true)
   const svgRef = useRef<HTMLDivElement>(null)
+
+  // Fonction pour calculer la position du tooltip
+  const calculateTooltipPosition = (mouseX: number, mouseY: number) => {
+    const containerRect = svgRef.current?.getBoundingClientRect()
+    if (!containerRect) return { x: 0, y: 0, position: 'top' as const }
+
+    // Dimensions du tooltip
+    const tooltipWidth = 200
+    const tooltipHeight = 60
+    const offset = 15
+
+    // Position initiale du tooltip (à droite de la souris)
+    let tooltipX = mouseX + offset
+    let tooltipY = mouseY - tooltipHeight / 2
+    let tooltipPosition: 'top' | 'bottom' = 'top'
+
+    // Vérifier si le tooltip dépasse à droite
+    if (tooltipX + tooltipWidth > window.innerWidth - 10) {
+      tooltipX = mouseX - tooltipWidth - offset
+    }
+
+    // Vérifier si le tooltip dépasse à gauche
+    if (tooltipX < 10) {
+      tooltipX = 10
+    }
+
+    // Vérifier si le tooltip dépasse en haut
+    if (tooltipY < 10) {
+      tooltipY = mouseY + offset
+      tooltipPosition = 'bottom'
+    }
+
+    // Vérifier si le tooltip dépasse en bas
+    if (tooltipY + tooltipHeight > window.innerHeight - 10) {
+      tooltipY = window.innerHeight - tooltipHeight - 10
+    }
+
+    return { x: tooltipX, y: tooltipY, position: tooltipPosition }
+  }
 
   useEffect(() => {
     // Charger le SVG et le rendre interactif
@@ -37,10 +73,10 @@ const FranceMap: React.FC = () => {
             if (deptName) {
               // Style initial
               path.style.cursor = 'pointer'
-              path.style.transition = 'fill 0.2s ease, stroke 0.2s ease'
-              path.style.fill = '#f3f4f6' // Gris plus clair par défaut
-              path.style.stroke = '#d1d5db'
-              path.style.strokeWidth = '0.8'
+              path.style.transition = 'fill 0.3s ease, stroke 0.3s ease'
+              path.style.fill = '#0C91DF' // Bleu de base
+              path.style.stroke = '#0A7BC7'
+              path.style.strokeWidth = '1'
               path.style.vectorEffect = 'non-scaling-stroke'
 
               // Événements avec debouncing pour le tooltip
@@ -49,25 +85,19 @@ const FranceMap: React.FC = () => {
               path.addEventListener('mouseenter', (e) => {
                 clearTimeout(tooltipTimeout)
                 tooltipTimeout = setTimeout(() => {
-                  const rect = path.getBoundingClientRect()
-                  const containerRect = svgRef.current?.getBoundingClientRect()
+                  const tooltipPos = calculateTooltipPosition(e.clientX, e.clientY)
                   
-                  if (containerRect) {
-                    // Calculer la position relative au conteneur
-                    const relativeX = rect.left - containerRect.left + rect.width / 2
-                    const relativeY = rect.top - containerRect.top - 10 // Plus proche du département
-                    
-                    setTooltip({
-                      x: relativeX,
-                      y: relativeY,
-                      name: deptName,
-                      visible: true
-                    })
-                  }
+                  setTooltip({
+                    x: tooltipPos.x,
+                    y: tooltipPos.y,
+                    name: deptName,
+                    visible: true,
+                    position: tooltipPos.position as 'top' | 'bottom'
+                  })
                   setHoveredDept(deptName)
-                  path.style.fill = '#3b82f6' // Bleu au hover
-                  path.style.stroke = '#1d4ed8'
-                }, 50) // Réduit le délai pour plus de réactivité
+                  path.style.fill = '#ffffff' // Blanc au hover
+                  path.style.stroke = '#0C91DF'
+                }, 50)
               })
 
               path.addEventListener('mouseleave', () => {
@@ -75,27 +105,22 @@ const FranceMap: React.FC = () => {
                 setTooltip(prev => ({ ...prev, visible: false }))
                 setHoveredDept(null)
                 if (deptName !== selectedDept) {
-                  path.style.fill = '#f3f4f6' // Retour au gris
-                  path.style.stroke = '#d1d5db'
+                  path.style.fill = '#0C91DF' // Retour au bleu de base
+                  path.style.stroke = '#0A7BC7'
                 }
               })
 
               // Ajouter un événement mousemove pour suivre la souris
               path.addEventListener('mousemove', (e) => {
                 if (hoveredDept === deptName) {
-                  const rect = path.getBoundingClientRect()
-                  const containerRect = svgRef.current?.getBoundingClientRect()
+                  const tooltipPos = calculateTooltipPosition(e.clientX, e.clientY)
                   
-                  if (containerRect) {
-                    const relativeX = e.clientX - containerRect.left
-                    const relativeY = e.clientY - containerRect.top - 10
-                    
-                    setTooltip(prev => ({
-                      ...prev,
-                      x: relativeX,
-                      y: relativeY
-                    }))
-                  }
+                  setTooltip(prev => ({
+                    ...prev,
+                    x: tooltipPos.x,
+                    y: tooltipPos.y,
+                    position: tooltipPos.position as 'top' | 'bottom'
+                  }))
                 }
               })
 
@@ -107,11 +132,11 @@ const FranceMap: React.FC = () => {
                 paths.forEach(p => {
                   const name = p.getAttribute('title')
                   if (name === deptName) {
-                    p.style.fill = '#1d4ed8' // Bleu foncé pour sélectionné
-                    p.style.stroke = '#1e40af'
+                    p.style.fill = '#0A7BC7' // Bleu foncé pour sélectionné
+                    p.style.stroke = '#085A8F'
                   } else {
-                    p.style.fill = '#f3f4f6' // Gris pour les autres
-                    p.style.stroke = '#d1d5db'
+                    p.style.fill = '#0C91DF' // Bleu de base pour les autres
+                    p.style.stroke = '#0A7BC7'
                   }
                 })
               })
@@ -149,138 +174,28 @@ const FranceMap: React.FC = () => {
     }
   }, [selectedDept])
 
-  // Gestion du zoom avec la molette
-  const handleWheel = (event: React.WheelEvent) => {
-    event.preventDefault()
-    
-    // Calculer le point de zoom (centre de la souris)
-    const rect = event.currentTarget.getBoundingClientRect()
-    const mouseX = event.clientX - rect.left
-    const mouseY = event.clientY - rect.top
-    
-    // Calculer la nouvelle échelle avec un zoom plus sensible
-    const zoomFactor = event.deltaY > 0 ? 0.85 : 1.15
-    const newScale = Math.max(0.3, Math.min(4, scale * zoomFactor))
-    
-    // Calculer la nouvelle position pour zoomer vers la souris
-    const scaleChange = newScale / scale
-    const newX = mouseX - (mouseX - position.x) * scaleChange
-    const newY = mouseY - (mouseY - position.y) * scaleChange
-    
-    setScale(newScale)
-    setPosition({ x: newX, y: newY })
-  }
-
-  // Gestion du drag
-  const handleMouseDown = (event: React.MouseEvent) => {
-    if (event.button === 0) { // Clic gauche seulement
-      setIsDragging(true)
-      setDragStart({ x: event.clientX - position.x, y: event.clientY - position.y })
-      ;(event.currentTarget as HTMLElement).style.cursor = 'grabbing'
-    }
-  }
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    if (isDragging) {
-      const newX = event.clientX - dragStart.x
-      const newY = event.clientY - dragStart.y
-      
-      // Limiter la position pour éviter l'overflow excessif
-      const containerRect = event.currentTarget.getBoundingClientRect()
-      const maxOffsetX = Math.max(0, (scale - 1) * containerRect.width / 2)
-      const maxOffsetY = Math.max(0, (scale - 1) * containerRect.height / 2)
-      
-      setPosition({
-        x: Math.max(-maxOffsetX, Math.min(maxOffsetX, newX)),
-        y: Math.max(-maxOffsetY, Math.min(maxOffsetY, newY))
-      })
-    }
-  }
-
-  const handleMouseUp = () => {
-    if (isDragging) {
-      setIsDragging(false)
-      if (svgRef.current) {
-        svgRef.current.style.cursor = 'grab'
-      }
-    }
-  }
-
-  // Gestion du drag global
-  useEffect(() => {
-    const handleGlobalMouseMove = (event: MouseEvent) => {
-      if (isDragging) {
-        const newX = event.clientX - dragStart.x
-        const newY = event.clientY - dragStart.y
-        
-        // Limiter la position pour éviter l'overflow excessif
-        const containerRect = svgRef.current?.getBoundingClientRect()
-        if (containerRect) {
-          const maxOffsetX = Math.max(0, (scale - 1) * containerRect.width / 2)
-          const maxOffsetY = Math.max(0, (scale - 1) * containerRect.height / 2)
-          
-          setPosition({
-            x: Math.max(-maxOffsetX, Math.min(maxOffsetX, newX)),
-            y: Math.max(-maxOffsetY, Math.min(maxOffsetY, newY))
-          })
-        }
-      }
-    }
-
-    const handleGlobalMouseUp = () => {
-      if (isDragging) {
-        setIsDragging(false)
-        if (svgRef.current) {
-          svgRef.current.style.cursor = 'grab'
-        }
-      }
-    }
-
-    if (isDragging) {
-      document.addEventListener('mousemove', handleGlobalMouseMove)
-      document.addEventListener('mouseup', handleGlobalMouseUp)
-    }
-
-    return () => {
-      document.removeEventListener('mousemove', handleGlobalMouseMove)
-      document.removeEventListener('mouseup', handleGlobalMouseUp)
-    }
-  }, [isDragging, dragStart, scale])
-
   return (
-    <div className="relative w-full h-full bg-white rounded-lg overflow-hidden">
+    <div className="relative w-full h-full rounded-lg overflow-hidden">
       <div 
         ref={svgRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing"
-        onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        style={{
-          transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-          transformOrigin: 'center',
-          width: '100%',
-          height: '100%',
-          maxWidth: '100%',
-          maxHeight: '100%',
-          transition: 'transform 0.1s ease-out'
-        }}
+        className="w-full h-full"
       />
       
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className="absolute z-20 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-xl pointer-events-none border border-gray-700"
+          className="fixed z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-xl pointer-events-none border border-gray-700"
           style={{
             left: tooltip.x,
             top: tooltip.y,
-            transform: 'translateX(-50%) translateY(-100%)',
             whiteSpace: 'nowrap',
-            maxWidth: '200px'
+            maxWidth: '200px',
+            pointerEvents: 'none',
+            userSelect: 'none',
+            transform: 'none'
           }}
         >
           <div className="font-medium text-center">{tooltip.name}</div>
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
         </div>
       )}
 
@@ -308,60 +223,11 @@ const FranceMap: React.FC = () => {
         </div>
       )}
 
-      {/* Controls */}
-      <div className="absolute top-2 md:top-4 right-2 md:right-4 flex flex-col space-y-1 md:space-y-2">
-        <button
-          onClick={() => {
-            const newScale = Math.min(4, scale + 0.25)
-            setScale(newScale)
-            // Ajuster la position pour éviter l'overflow
-            const maxOffset = (newScale - 1) * 100
-            setPosition(prev => ({
-              x: Math.max(-maxOffset, Math.min(maxOffset, prev.x)),
-              y: Math.max(-maxOffset, Math.min(maxOffset, prev.y))
-            }))
-          }}
-          className="w-6 h-6 md:w-8 md:h-8 bg-white rounded-md md:rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 text-xs md:text-sm font-bold"
-        >
-          +
-        </button>
-        <button
-          onClick={() => {
-            const newScale = Math.max(0.3, scale - 0.25)
-            setScale(newScale)
-            // Ajuster la position pour éviter l'overflow
-            const maxOffset = (newScale - 1) * 100
-            setPosition(prev => ({
-              x: Math.max(-maxOffset, Math.min(maxOffset, prev.x)),
-              y: Math.max(-maxOffset, Math.min(maxOffset, prev.y))
-            }))
-          }}
-          className="w-6 h-6 md:w-8 md:h-8 bg-white rounded-md md:rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 text-xs md:text-sm font-bold"
-        >
-          −
-        </button>
-        <button
-          onClick={() => { 
-            setScale(1); 
-            setPosition({ x: 0, y: 0 });
-            setSelectedDept(null);
-            // Remettre tous les départements en gris
-            const paths = svgRef.current?.querySelectorAll('path')
-            paths?.forEach(path => {
-              path.style.fill = '#f3f4f6'
-              path.style.stroke = '#d1d5db'
-            })
-          }}
-          className="w-6 h-6 md:w-8 md:h-8 bg-white rounded-md md:rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 text-xs"
-          title="Réinitialiser la vue"
-        >
-          ⌂
-        </button>
-      </div>
+
 
       {/* Instructions */}
       {showInstructions && (
-        <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4 bg-white p-2 md:p-3 rounded-lg shadow-lg border max-w-[calc(100%-1rem)] md:max-w-xs z-10">
+        <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4 bg-white/90 backdrop-blur-sm p-2 md:p-3 rounded-lg shadow-lg border border-gray-200/50 max-w-[calc(100%-1rem)] md:max-w-xs z-10">
           <div className="flex justify-between items-start mb-1 md:mb-2">
             <h4 className="font-semibold text-gray-800 text-xs md:text-sm">
               Carte interactive
@@ -377,7 +243,7 @@ const FranceMap: React.FC = () => {
             🖱️ Survolez et cliquez sur les départements
           </p>
           <p className="text-xs text-gray-500">
-            🔍 Molette pour zoomer • 🖱️ Glisser pour déplacer
+            🖱️ Cliquez pour sélectionner un département
           </p>
         </div>
       )}
