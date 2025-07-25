@@ -1,3 +1,5 @@
+'use client'
+
 interface MissionSectionProps {
   quoteText: string
   imageUrl: string

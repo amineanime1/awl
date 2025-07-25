@@ -1,5 +1,3 @@
-'use client'
-
 import HeroSection from '@/components/HeroSection'
 import ServicesSection from '@/components/ServicesSection'
 import CommitmentsSection from '@/components/CommitmentsSection'
@@ -10,6 +8,7 @@ import Faq from '@/components/faq'
 import CoverageAreaSection from '@/components/CoverageAreaSection'
 import MissionSection from '@/components/MissionSection'
 import FleetSection from '@/components/FleetSection'
+import { ClientWrapper } from '@/components/ClientWrapper'
 import { defaultPageData } from '@/lib/default-data'
 
 // Types pour les données
@@ -92,41 +91,44 @@ async function getPageData(): Promise<HomePageProps> {
   }
 }
 
-// Client Component pour la logique interactive
-function HomeClient({ 
-  missionData, 
-  servicesData, 
-  fleetData, 
-  environmentalData, 
-  faqData 
-}: HomePageProps) {
+// Server Component principal
+export default async function Home() {
+  // Récupération des données côté serveur (SEO-friendly)
+  const pageData = await getPageData()
+  
   return (
     <main className="flex min-h-screen flex-col">
       {/* Section Hero */}
       <HeroSection />
       
       {/* Section Mission */}
-      <MissionSection 
-        quoteText={missionData.quote_text}
-        imageUrl={missionData.image_url}
-        imageAlt={missionData.image_alt}
-      />
+      <ClientWrapper>
+        <MissionSection 
+          quoteText={pageData.missionData.quote_text}
+          imageUrl={pageData.missionData.image_url}
+          imageAlt={pageData.missionData.image_alt}
+        />
+      </ClientWrapper>
       
       {/* Sections suivantes */}
-      <ServicesSection services={servicesData} />
-      <FleetSection vehicles={fleetData} />
-      <CommitmentsTowardsEnvironmentSection commitments={environmentalData} />
+      <ClientWrapper>
+        <ServicesSection services={pageData.servicesData} />
+      </ClientWrapper>
+      
+      <ClientWrapper>
+        <FleetSection vehicles={pageData.fleetData} />
+      </ClientWrapper>
+      
+      <ClientWrapper>
+        <CommitmentsTowardsEnvironmentSection commitments={pageData.environmentalData} />
+      </ClientWrapper>
+      
       <TransportAvailabilitySection /> 
       <CTASection />
-      <Faq items={faqData} />
+      
+      <ClientWrapper>
+        <Faq items={pageData.faqData} />
+      </ClientWrapper>
     </main>
   )
-}
-
-// Server Component principal
-export default async function Home() {
-  // Récupération des données côté serveur (SEO-friendly)
-  const pageData = await getPageData()
-  
-  return <HomeClient {...pageData} />
 } 
