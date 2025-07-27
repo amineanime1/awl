@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Validation des champs requis avec messages spécifiques
-    const erreurs = []
+    const erreurs: string[] = []
     
     if (!typeMarchandise) erreurs.push('Le type de marchandise est obligatoire')
     if (!quantite) erreurs.push('La quantité est obligatoire')

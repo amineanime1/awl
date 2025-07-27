@@ -212,8 +212,12 @@ export default function MissionPage() {
                         alt={missionData.image_alt}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                          e.currentTarget.nextElementSibling!.style.display = 'flex'
+                          const img = e.currentTarget as HTMLImageElement;
+                          img.style.display = 'none';
+                          const next = img.nextElementSibling as HTMLElement | null;
+                          if (next) {
+                            next.style.display = 'flex';
+                          }
                         }}
                       />
                     ) : null}

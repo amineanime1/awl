@@ -76,13 +76,12 @@ export function getOptimizedImageUrl(
     format?: string
   } = {}
 ): string {
-  const transformations = []
-  
-  if (options.width) transformations.push(`w_${options.width}`)
-  if (options.height) transformations.push(`h_${options.height}`)
-  if (options.quality) transformations.push(`q_${options.quality}`)
-  if (options.format) transformations.push(`f_${options.format}`)
-  
+  const transformations: Record<string, string | number>[] = []
+
+  if (options.width) transformations.push({ width: options.width })
+  if (options.height) transformations.push({ height: options.height })
+  if (options.quality) transformations.push({ quality: options.quality })
+  if (options.format) transformations.push({ fetch_format: options.format })
   const transformationString = transformations.length > 0 ? transformations.join(',') : 'auto'
   
   return cloudinary.url(publicId, {

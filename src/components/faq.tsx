@@ -119,7 +119,7 @@ export default function Faq({ items }: FaqProps) {
                     <p className="text-lg md:text-xl text-gray-800 text-center font-gantari font-medium mb-6">Contactez-nous à tout moment — on est presque aussi rapides que nos livraisons. </p>
                      <div className="flex justify-center mb-4">
                         <button className="primary-blue-bg text-white text-lg font-bold text-center px-20 py-4 rounded-full flex items-center gap-2 font-gantari ">
-                            Pralons-en
+                            Parlons-en
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16.15 13H5q-.425 0-.712-.288T4 12t.288-.712T5 11h11.15L13.3 8.15q-.3-.3-.288-.7t.288-.7q.3-.3.713-.312t.712.287L19.3 11.3q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.575 4.575q-.3.3-.712.288t-.713-.313q-.275-.3-.288-.7t.288-.7z" /></svg>
 
                         </button>
