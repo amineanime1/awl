@@ -46,7 +46,7 @@ export default function HeroSection({ onTransitionTrigger }: HeroSectionProps) {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/contact"
-                className="primary-blue-bg text-white px-8 py-3 rounded-full font-gantari font-semibold hover:bg-[#0C7EC0] transition-colors inline-flex items-center gap-4"
+                className="justify-center primary-blue-bg text-white px-8 py-3 rounded-full font-gantari font-semibold hover:bg-[#0C7EC0] transition-colors inline-flex items-center gap-4"
               >
                 Demander un devis
                 <img src="/svg/awl-arrow-tr.svg" alt="arrow" className="w-3 h-3" />

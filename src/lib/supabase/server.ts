@@ -52,6 +52,17 @@ export interface ServiceData {
   is_active: boolean
 }
 
+export interface ServiceDetailsData {
+  id: number
+  service_id: number
+  subtitle: string
+  detailed_description: string
+  features: any // JSON array des fonctionnalités
+  process_steps: any // JSON array des étapes du processus
+  is_active: boolean
+  display_order: number
+}
+
 export interface FleetVehicleData {
   id: number
   name: string
@@ -133,6 +144,27 @@ export async function getServicesData(): Promise<ServiceData[]> {
   return data || []
 }
 
+export async function getServiceDetailsData(): Promise<ServiceDetailsData[]> {
+  const supabase = createServerSupabaseClient()
+  
+  if (!supabase) {
+    return []
+  }
+  
+  const { data, error } = await supabase
+    .from('service_details')
+    .select('*')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true })
+
+  if (error) {
+    console.error('Erreur lors de la récupération des détails des services:', error)
+    return []
+  }
+
+  return data || []
+}
+
 export async function getFleetData(): Promise<FleetVehicleData[]> {
   const supabase = createServerSupabaseClient()
   
@@ -199,9 +231,10 @@ export async function getFaqData(): Promise<FaqItemData[]> {
 // Fonction pour récupérer toutes les données en une fois
 export async function getAllPageData() {
   try {
-    const [missionData, servicesData, fleetData, environmentalData, faqData] = await Promise.all([
+    const [missionData, servicesData, serviceDetailsData, fleetData, environmentalData, faqData] = await Promise.all([
       getMissionData(),
       getServicesData(),
+      getServiceDetailsData(),
       getFleetData(),
       getEnvironmentalData(),
       getFaqData()
@@ -210,6 +243,7 @@ export async function getAllPageData() {
     return {
       missionData,
       servicesData,
+      serviceDetailsData,
       fleetData,
       environmentalData,
       faqData
@@ -224,6 +258,7 @@ export async function getAllPageData() {
         image_alt: 'AWL Mission'
       },
       servicesData: [],
+      serviceDetailsData: [],
       fleetData: [],
       environmentalData: [],
       faqData: []

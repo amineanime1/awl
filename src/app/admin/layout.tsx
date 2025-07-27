@@ -14,7 +14,8 @@ import {
   FaSignOutAlt,
   FaUser,
   FaBars,
-  FaTimes
+  FaTimes,
+  FaFileAlt
 } from 'react-icons/fa'
 
 export default function AdminLayout({
@@ -78,6 +79,7 @@ export default function AdminLayout({
     { name: 'Tableau de bord', href: '/admin', icon: FaHome },
     { name: 'Mission', href: '/admin/mission', icon: FaCog },
     { name: 'Services', href: '/admin/services', icon: FaTruck },
+    { name: 'Détails Services', href: '/admin/service-details', icon: FaFileAlt },
     { name: 'Flotte', href: '/admin/fleet', icon: FaTruck },
     { name: 'Environnement', href: '/admin/environment', icon: FaLeaf },
     { name: 'FAQ', href: '/admin/faq', icon: FaQuestionCircle },
@@ -117,14 +119,19 @@ export default function AdminLayout({
             <nav className="flex-1 px-4 py-6 space-y-2">
               {navigation.map((item) => {
                 const isActive = pathname === item.href
+                const isHomePage = item.href === '/'
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
                     className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        ? isHomePage
+                          ? 'bg-blue-600 text-white border border-blue-600'
+                          : 'bg-blue-50 text-blue-700 border border-blue-200'
+                        : isHomePage
+                          ? 'text-blue-600 hover:bg-blue-50 hover:text-blue-700'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }`}
                     onClick={() => setSidebarOpen(false)}
                   >
@@ -170,14 +177,19 @@ export default function AdminLayout({
             <nav className="flex-1 px-4 py-6 space-y-2">
               {navigation.map((item) => {
                 const isActive = pathname === item.href
+                const isHomePage = item.href === '/'
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
                     className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        ? isHomePage
+                          ? 'bg-blue-600 text-white border border-blue-600'
+                          : 'bg-blue-50 text-blue-700 border border-blue-200'
+                        : isHomePage
+                          ? 'text-blue-600 hover:bg-blue-50 hover:text-blue-700'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }`}
                   >
                     <item.icon className="mr-3 h-5 w-5" />

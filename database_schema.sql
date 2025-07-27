@@ -299,3 +299,80 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+-- Table pour les détails des services (page services)
+CREATE TABLE service_details (
+    id SERIAL PRIMARY KEY,
+    service_id INTEGER REFERENCES services(id) ON DELETE CASCADE,
+    subtitle VARCHAR(255) NOT NULL,
+    detailed_description TEXT NOT NULL,
+    features JSONB NOT NULL, -- Stockage des fonctionnalités en JSON
+    process_steps JSONB NOT NULL, -- Stockage des étapes du processus en JSON
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    display_order INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Index pour optimisation
+CREATE INDEX idx_service_details_service_id ON service_details(service_id);
+CREATE INDEX idx_service_details_active ON service_details(is_active);
+CREATE INDEX idx_service_details_display_order ON service_details(display_order);
+
+-- Trigger pour mise à jour automatique
+CREATE TRIGGER update_service_details_updated_at 
+    BEFORE UPDATE ON service_details 
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Insertion des données détaillées par défaut
+INSERT INTO service_details (service_id, subtitle, detailed_description, features, process_steps, display_order) VALUES
+    (1, 'Solutions logistiques complètes pour tous vos besoins de transport', 
+     'Notre service de transport de marchandises couvre l''ensemble de vos besoins logistiques, du transport express au fret lourd. Nous garantissons la sécurité, la ponctualité et la traçabilité de vos envois.',
+     '[
+       {"icon": "FaTruck", "title": "Flotte Moderne", "description": "Véhicules utilitaires légers (-3,5T) équipés des dernières technologies"},
+       {"icon": "FaShieldAlt", "title": "Sécurité Garantie", "description": "Assurance complète et suivi en temps réel de vos marchandises"},
+       {"icon": "FaClock", "title": "Ponctualité", "description": "Respect des délais de livraison avec notifications en temps réel"},
+       {"icon": "FaMapMarkedAlt", "title": "Couverture Nationale", "description": "Livraison partout en France avec une logistique optimisée"}
+     ]',
+     '[
+       "Évaluation de vos besoins et planification",
+       "Préparation et emballage sécurisé", 
+       "Transport avec suivi en temps réel",
+       "Livraison et signature électronique"
+     ]',
+     1),
+    (2, 'Service spécialisé pour vos achats de meubles et matériaux',
+     'Nous vous accompagnons dans vos projets d''aménagement avec un service de livraison spécialisé pour les meubles IKEA et les matériaux Leroy Merlin. Montage, installation et élimination des emballages inclus.',
+     '[
+       {"icon": "FaBox", "title": "Livraison à Domicile", "description": "Livraison directement chez vous, même en étage"},
+       {"icon": "FaTools", "title": "Montage de Meubles", "description": "Assemblage professionnel de vos meubles IKEA"},
+       {"icon": "FaUsers", "title": "Installation Complète", "description": "Déballage, installation et élimination des emballages"},
+       {"icon": "MdSchedule", "title": "Créneaux Flexibles", "description": "Plage horaire de livraison adaptée à vos disponibilités"}
+     ]',
+     '[
+       "Préparation de la commande en magasin",
+       "Transport sécurisé vers votre domicile",
+       "Montage et installation des meubles", 
+       "Nettoyage et élimination des emballages"
+     ]',
+     2),
+    (5, 'Transport sécurisé de médicaments et équipements médicaux',
+     'Notre service de transport médical respecte les normes strictes du secteur de la santé. Nous assurons le transport de médicaments, équipements médicaux et échantillons avec contrôle de température et traçabilité complète.',
+     '[
+       {"icon": "FaThermometerHalf", "title": "Contrôle de Température", "description": "Maintenance de la chaîne du froid pour les produits sensibles"},
+       {"icon": "FaClipboardCheck", "title": "Traçabilité Complète", "description": "Suivi détaillé de chaque étape du transport"},
+       {"icon": "MdSecurity", "title": "Normes Médicales", "description": "Respect des normes ISO et bonnes pratiques pharmaceutiques"},
+       {"icon": "FaClock", "title": "Livraison Urgente", "description": "Service d''urgence disponible 24h/24 pour les cas critiques"}
+     ]',
+     '[
+       "Validation des documents et autorisations",
+       "Préparation du conditionnement adapté",
+       "Transport avec contrôle de température",
+       "Livraison et signature électronique"
+     ]',
+     3);
+
+-- Commentaire pour documentation
+COMMENT ON TABLE service_details IS 'Détails des services pour la page services - contenu détaillé de chaque service';
+COMMENT ON COLUMN service_details.features IS 'JSON array des fonctionnalités avec icon, title, description';
+COMMENT ON COLUMN service_details.process_steps IS 'JSON array des étapes du processus';

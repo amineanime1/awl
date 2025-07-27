@@ -68,7 +68,7 @@ export default function Faq({ items }: FaqProps) {
     // Si aucun item FAQ n'est disponible, afficher un message
     if (!items || items.length === 0) {
         return (
-            <section className="bg-white mb-24">
+            <section id="faq" className="bg-white mb-24">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-16 py-16 md:py-20 lg:py-24 flex flex-col items-center justify-center">
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center gap-2 py-2">
@@ -88,7 +88,7 @@ export default function Faq({ items }: FaqProps) {
     }
 
     return (
-        <section className="bg-white mb-24">
+        <section id="faq" className="bg-white mb-24">
             <div className="container mx-auto px-4 sm:px-6 lg:px-16 py-16 md:py-20 lg:py-24 flex flex-col items-center justify-center">
                 <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 py-2">

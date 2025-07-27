@@ -5,6 +5,8 @@ import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
 import { FaTruck, FaBox, FaCar, FaClock, FaRoute, FaFlag } from 'react-icons/fa'
 import { MdLocalShipping, MdSpeed } from 'react-icons/md'
+import Link from 'next/link'
+import CTASection from './CTASection'
 import type { ServiceData } from '@/lib/supabase/server'
 
 interface ServiceCard {
@@ -177,10 +179,10 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
                         {service.description}
                       </p>
                       {isActive && (
-                      <button className="inline-flex items-center gap-2 primary-blue font-medium transition-colors mt-4 self-start">
-                        En savoir plus →
-                      </button>
-                    )}
+                        <Link href="/services" className="inline-flex items-center gap-2 primary-blue font-medium transition-colors mt-4 self-start">
+                          En savoir plus →
+                        </Link>
+                      )}
                     </div>
                     
                     {/* Bouton "En savoir plus" - visible seulement pour la carte active */}
@@ -212,18 +214,8 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
           ))}
         </div>
 
-        {/* CTA final */}
-        <div className="text-center">
-          <h3 className="text-2xl font-bold text-white mb-4">
-            Prêt à passer à l'action ?
-          </h3>
-          <p className="text-white/80 mb-8 max-w-lg mx-auto">
-            Obtenez un devis personnalisé en quelques clics. C'est rapide, gratuit, et sans engagement.
-          </p>
-          <button className="inline-flex items-center gap-2 bg-white primary-blue px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition-colors shadow-lg">
-            Obtenez un devis personnalisé →
-          </button>
-        </div>
+        {/* CTA final - Utilise le même composant que la landing page */}
+      
       </div>
     </section>
   )

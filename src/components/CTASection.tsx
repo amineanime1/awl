@@ -7,43 +7,8 @@ export default function CTASection() {
         {/* Conteneur principal - EXACTEMENT comme la photo */}
         <div className="relative bg-[#11103B] rounded-[24px] p-8 md:p-12 overflow-hidden">
           {/* Motif de fond avec logo AWL - très subtil */}
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div className="absolute top-6 right-8 animate-pulse" style={{ animationDelay: '0s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-6 left-8 animate-pulse" style={{ animationDelay: '1s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-1/3 left-1/4 animate-pulse" style={{ animationDelay: '2s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-1/3 right-1/4 animate-pulse" style={{ animationDelay: '3s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-1/2 left-1/3 animate-pulse" style={{ animationDelay: '4s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-1/2 right-1/3 animate-pulse" style={{ animationDelay: '5s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-2/3 left-1/4 animate-pulse" style={{ animationDelay: '6s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-2/3 right-1/4 animate-pulse" style={{ animationDelay: '7s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute bottom-6 left-8 animate-pulse" style={{ animationDelay: '8s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute bottom-6 right-8 animate-pulse" style={{ animationDelay: '9s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-1/6 left-1/2 animate-pulse" style={{ animationDelay: '10s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
-            <div className="absolute top-3/4 left-1/2 animate-pulse" style={{ animationDelay: '11s' }}>
-              <img src="/svg/awl-logo-bg.svg" alt="AWL Logo" className="w-16 h-16" />
-            </div>
+          <div className="absolute inset-0">
+        <img src="/svg/logo-bg-cta.svg" alt="AWL Logo Group" className="w-full h-full object-cover" />
           </div>
 
           {/* Contenu principal */}

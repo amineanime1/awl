@@ -26,10 +26,10 @@ export default function MissionSection({ quoteText, imageUrl, imageAlt }: Missio
 
         {/* Contenu principal - Rectangle divisé en deux */}
         <div className="bg-blue-50 rounded-2xl overflow-hidden shadow-lg">
-          <div className="grid md:grid-cols-3 gap-0">
+          <div className="grid lg:grid-cols-3 gap-0">
             
             {/* Colonne gauche - Texte avec motifs de fond */}
-            <div className="relative p-8 md:p-12 col-span-2">
+            <div className="relative p-8 md:p-12 lg:col-span-2">
               {/* Placeholder pour les motifs de fond */}
               <div className="absolute inset-0 overflow-hidden">
                 {/* Motifs circulaires stylisés (packages/boîtes) */}
@@ -70,15 +70,19 @@ export default function MissionSection({ quoteText, imageUrl, imageAlt }: Missio
             {/* Colonne droite - Image */}
             <div className="relative">
               {/* Image dynamique depuis la base de données */}
-              <div className="w-full min-h-[300px] max-h-[300px] bg-gradient-to-br from-gray-200 to-gray-300 rounded-r-2xl flex items-center justify-center overflow-hidden">
+              <div className="w-full min-h-[300px] max-h-[400px] 2xl:max-h-[350px] bg-gradient-to-br from-gray-200 to-gray-300 lg:rounded-r-2xl flex items-center justify-center overflow-hidden">
                 <img 
                   src={imageUrl} 
                   alt={imageAlt} 
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     // Fallback en cas d'erreur de chargement
-                    e.currentTarget.style.display = 'none'
-                    e.currentTarget.nextElementSibling!.style.display = 'flex'
+                    const img = e.currentTarget as HTMLImageElement
+                    img.style.display = 'none'
+                    const next = img.nextElementSibling as HTMLElement | null
+                    if (next) {
+                      next.style.display = 'flex'
+                    }
                   }}
                 />
                 <div className="hidden text-center text-gray-500">
