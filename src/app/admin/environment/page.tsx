@@ -43,6 +43,12 @@ export default function EnvironmentPage() {
   }, [])
 
   const fetchCommitments = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available')
+      setLoading(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase
         .from('environmental_commitments')
@@ -59,6 +65,11 @@ export default function EnvironmentPage() {
   }
 
   const handleSave = async (commitment: EnvironmentalCommitment) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     setSaving(true)
     setMessage(null)
 
@@ -93,6 +104,11 @@ export default function EnvironmentPage() {
   }
 
   const handleDelete = async (id: number) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     if (!confirm('Êtes-vous sûr de vouloir supprimer cet engagement ?')) return
 
     try {
@@ -102,7 +118,6 @@ export default function EnvironmentPage() {
         .eq('id', id)
 
       if (error) throw error
-
       setMessage({ type: 'success', text: 'Engagement supprimé avec succès !' })
       fetchCommitments()
     } catch (error) {
@@ -112,6 +127,11 @@ export default function EnvironmentPage() {
   }
 
   const handleToggleActive = async (commitment: EnvironmentalCommitment) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     try {
       const { error } = await supabase
         .from('environmental_commitments')

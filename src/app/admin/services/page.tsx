@@ -44,6 +44,12 @@ export default function ServicesPage() {
   }, [])
 
   const fetchServices = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available')
+      setLoading(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase
         .from('services')
@@ -60,6 +66,11 @@ export default function ServicesPage() {
   }
 
   const handleSave = async (service: Service) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     setSaving(true)
     setMessage(null)
 
@@ -94,6 +105,11 @@ export default function ServicesPage() {
   }
 
   const handleDelete = async (id: number) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce service ?')) return
 
     try {
@@ -103,7 +119,6 @@ export default function ServicesPage() {
         .eq('id', id)
 
       if (error) throw error
-
       setMessage({ type: 'success', text: 'Service supprimé avec succès !' })
       fetchServices()
     } catch (error) {
@@ -113,6 +128,11 @@ export default function ServicesPage() {
   }
 
   const handleToggleActive = async (service: Service) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     try {
       const { error } = await supabase
         .from('services')

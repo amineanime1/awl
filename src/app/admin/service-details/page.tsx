@@ -59,6 +59,12 @@ export default function ServiceDetailsPage() {
   }, [])
 
   const fetchData = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available')
+      setLoading(false)
+      return
+    }
+
     try {
       // Récupérer les services pour le select
       const { data: servicesData, error: servicesError } = await supabase
@@ -86,6 +92,11 @@ export default function ServiceDetailsPage() {
   }
 
   const handleSave = async (details: ServiceDetails) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     setSaving(true)
     setMessage(null)
 
@@ -128,6 +139,11 @@ export default function ServiceDetailsPage() {
   }
 
   const handleDelete = async (id: number) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     if (!confirm('Êtes-vous sûr de vouloir supprimer ces détails ?')) return
 
     try {
@@ -147,6 +163,11 @@ export default function ServiceDetailsPage() {
   }
 
   const handleToggleActive = async (details: ServiceDetails) => {
+    if (!supabase) {
+      console.error('Supabase client not available')
+      return
+    }
+
     try {
       const { error } = await supabase
         .from('service_details')

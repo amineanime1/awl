@@ -38,6 +38,12 @@ export default function FleetPage() {
   }, [])
 
   const fetchVehicles = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available')
+      setLoading(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase
         .from('fleet_vehicles')
@@ -54,6 +60,11 @@ export default function FleetPage() {
   }
 
   const handleSave = async (vehicle: FleetVehicle) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     setSaving(true)
     setMessage(null)
 
@@ -88,6 +99,11 @@ export default function FleetPage() {
   }
 
   const handleDelete = async (id: number) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) return
 
     try {
@@ -107,6 +123,11 @@ export default function FleetPage() {
   }
 
   const handleToggleActive = async (vehicle: FleetVehicle) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     try {
       const { error } = await supabase
         .from('fleet_vehicles')

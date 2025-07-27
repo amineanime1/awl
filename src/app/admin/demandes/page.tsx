@@ -45,6 +45,12 @@ export default function DemandesPage() {
   }, [])
 
   const fetchDemandes = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available')
+      setLoading(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase
         .from('demandes_transport')
@@ -61,6 +67,11 @@ export default function DemandesPage() {
   }
 
   const updateStatus = async (id: number, newStatus: string) => {
+    if (!supabase) {
+      console.error('Supabase client not available')
+      return
+    }
+
     try {
       const { error } = await supabase
         .from('demandes_transport')
@@ -75,6 +86,11 @@ export default function DemandesPage() {
   }
 
   const deleteDemande = async (id: number) => {
+    if (!supabase) {
+      console.error('Supabase client not available')
+      return
+    }
+
     if (!confirm('Êtes-vous sûr de vouloir supprimer cette demande ?')) return
 
     try {

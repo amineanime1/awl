@@ -30,6 +30,12 @@ export default function AdminDashboard() {
   useEffect(() => { fetchStats() }, [])
 
   const fetchStats = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available - using default stats')
+      setLoading(false)
+      return
+    }
+
     try {
       // Fetch counts from Supabase tables
       const [

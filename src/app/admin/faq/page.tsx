@@ -35,6 +35,12 @@ export default function FaqPage() {
   }, [])
 
   const fetchFaqItems = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available')
+      setLoading(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase
         .from('faq_items')
@@ -51,6 +57,11 @@ export default function FaqPage() {
   }
 
   const handleSave = async (item: FaqItem) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     setSaving(true)
     setMessage(null)
 
@@ -85,6 +96,11 @@ export default function FaqPage() {
   }
 
   const handleDelete = async (id: number) => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     if (!confirm('Êtes-vous sûr de vouloir supprimer cette question ?')) return
 
     try {
@@ -104,6 +120,11 @@ export default function FaqPage() {
   }
 
   const handleToggleActive = async (item: FaqItem) => {
+    if (!supabase) {
+      console.error('Supabase client not available')
+      return
+    }
+
     try {
       const { error } = await supabase
         .from('faq_items')
@@ -118,6 +139,11 @@ export default function FaqPage() {
   }
 
   const handleReorder = async (itemId: number, newOrder: number) => {
+    if (!supabase) {
+      console.error('Supabase client not available')
+      return
+    }
+
     try {
       const { error } = await supabase
         .from('faq_items')

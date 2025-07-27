@@ -28,6 +28,12 @@ export default function MissionPage() {
   }, [])
 
   const fetchMissionData = async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available')
+      setLoading(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase
         .from('mission_section')
@@ -47,6 +53,11 @@ export default function MissionPage() {
   }
 
   const handleSave = async () => {
+    if (!supabase) {
+      setMessage({ type: 'error', text: 'Supabase client not available' })
+      return
+    }
+
     setSaving(true)
     setMessage(null)
 

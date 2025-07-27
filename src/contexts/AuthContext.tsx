@@ -29,6 +29,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     // Get initial session
     const getInitialSession = async () => {
+      if (!supabase) {
+        console.warn('Supabase client not available - authentication disabled')
+        setIsLoading(false)
+        return
+      }
+
       try {
         const { data: { session }, error } = await supabase.auth.getSession()
         if (error) {
@@ -49,20 +55,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
     getInitialSession()
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session)
-        setSession(session)
-        setUser(session?.user ?? null)
-        setIsLoading(false)
-        setError(null)
-      }
-    )
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          console.log('Auth state changed:', event, session)
+          setSession(session)
+          setUser(session?.user ?? null)
+          setIsLoading(false)
+          setError(null)
+        }
+      )
 
-    return () => subscription.unsubscribe()
+      return () => subscription.unsubscribe()
+    }
   }, [])
 
   const signIn = async (email: string, password: string) => {
+    if (!supabase) {
+      throw new Error('Supabase client not available')
+    }
+
     try {
       setError(null)
       setIsLoading(true)
@@ -95,6 +107,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const signOut = async () => {
+    if (!supabase) {
+      throw new Error('Supabase client not available')
+    }
+
     try {
       setError(null)
       setIsLoading(true)
