@@ -47,7 +47,7 @@ export default function Contact() {
       if (response.ok) {
         setStatus({
           type: 'success',
-          message: data.message || 'Votre demande de transport a été envoyée avec succès. Nous vous répondrons dans les plus brefs délais.',
+          message: data.message || 'Votre demande de transport a été envoyée avec succès. Un email de confirmation vous a été envoyé. Nous vous répondrons dans les plus brefs délais.',
         })
         setFormData({
           typeMarchandise: '',
